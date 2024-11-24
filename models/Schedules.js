@@ -1,21 +1,36 @@
 const mongoose = require('mongoose');
 
 const Schedules = new mongoose.Schema({
-   day: {
-      type: String,
-      enum: [
-         'sunday',
-         'monday',
-         'tuesday',
-         'wednesday',
-         'thursday',
-         'friday',
-         'saturday'
-      ],
+   date: {
+      type: Date,
+      default: Date.now,
    },
    shacharit: {
-      type: Date,
+      type: String,
    },
+   mincha: {
+      type: String,
+   },
+   arvit: {
+      type: String,
+
+   },
+   // shiurim: [
+   //    {
+   //       title: {
+   //          type: String,
+   //       },
+   //       time: {
+   //          type: Date,
+   //       },
+   //       teacher: {
+   //          type: String,
+   //       },
+   //       content: {
+   //          type: String,
+   //       },
+   //    }
+   // ]
 
 });
 

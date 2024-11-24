@@ -10,8 +10,8 @@ module.exports = {
 
 async function get(req, res, next) {
    try {
-      const Schedules = await Schedules.find();
-      res.json(Schedules);
+      const schedules = await Schedules.find();
+      res.json(schedules);
    } catch (err) {
       res.status(500).json({ message: err.message });
    }
@@ -19,7 +19,6 @@ async function get(req, res, next) {
 
 async function createMany(req, res, next) {
    const { data } = req.body;
-   console.log(data);
 
    Schedules.insertMany(data)
       .then((d) => {
