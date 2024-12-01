@@ -9,7 +9,7 @@ module.exports = {
 }
 
 async function get(req, res, next) {
-   
+
    try {
       const schedules = await Schedules.find();
       res.json(schedules);
@@ -37,7 +37,7 @@ async function create(req, res, next) {
    try {
       const newSchedule = new Schedules(ScheduleData);
       await newSchedule.save();
-      res.status(201).json(newSchedule);
+      res.status(201).json({ message: 'Schedule deleted successfully', data: newSchedule });
    } catch (err) {
       res.status(400).json({ message: err.message });
    }
@@ -49,7 +49,7 @@ async function update(req, res, next) {
    try {
       const updatedSchedule = await Schedules.findByIdAndUpdate(id, updateData, { new: true });
       if (!updatedSchedule) return res.status(404).json({ message: 'Schedules not found' });
-      res.json(updatedSchedule);
+      res.json({ message: 'schedule updated successfully', data: updatedSchedule });
    } catch (err) {
       res.status(400).json({ message: err.message });
    }
@@ -60,7 +60,7 @@ async function remove(req, res, next) {
    try {
       const deletedSchedule = await Schedules.findByIdAndDelete(id);
       if (!deletedSchedule) return res.status(404).json({ message: 'Schedules not found' });
-      res.json({ message: 'Schedules deleted successfully' });
+      res.json({ message: 'Schedule deleted successfully' });
    } catch (err) {
       res.status(500).json({ message: err.message });
    }

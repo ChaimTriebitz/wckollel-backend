@@ -10,7 +10,7 @@ router.route('/createMany').post(protect, createMany)
 
 router.route('/create').post(create)
 
-router.route('/:id').put(update)
+router.route('/update/:id').put(update)
 
 router.route('/remove/:id').delete(remove)
 

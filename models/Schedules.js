@@ -12,6 +12,9 @@ const Schedules = new mongoose.Schema({
    },
    arvit: {
       type: String,
+   },
+   shiurim: {
+      type: String,
    }
 })
 
