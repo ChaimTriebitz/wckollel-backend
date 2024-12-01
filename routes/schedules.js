@@ -12,6 +12,6 @@ router.route('/create').post(create)
 
 router.route('/:id').put(update)
 
-router.route('/:id').delete(protect, remove)
+router.route('/remove/:id').delete(remove)
 
 module.exports = router

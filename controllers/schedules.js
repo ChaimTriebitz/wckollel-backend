@@ -9,6 +9,7 @@ module.exports = {
 }
 
 async function get(req, res, next) {
+   
    try {
       const schedules = await Schedules.find();
       res.json(schedules);
