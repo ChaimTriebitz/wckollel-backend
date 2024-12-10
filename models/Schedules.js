@@ -7,7 +7,6 @@ const Schedules = new mongoose.Schema({
    },
    time_frame: {
       type: String,
-      required: true,
    },
    event_location_1: {
       type: String,
