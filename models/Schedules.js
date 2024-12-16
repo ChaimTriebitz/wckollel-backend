@@ -1,26 +1,29 @@
 const mongoose = require('mongoose');
 
 const Schedules = new mongoose.Schema({
-   date: {
-      type: Date,
-      required: true,
-   },
    time_frame: {
       type: String,
+      required: true,
    },
-   event_location_1: {
+   sunday: {
       type: String,
    },
-   event_location_2: {
+   monday: {
       type: String,
    },
-   event_location_3: {
+   tuesday: {
       type: String,
    },
-   event_location_4: {
+   wednesday: {
       type: String,
    },
-   event_location_5: {
+   thursday: {
+      type: String,
+   },
+   friday: {
+      type: String,
+   },
+   saturday: {
       type: String,
    },
 })
