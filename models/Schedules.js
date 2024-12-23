@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const Schedules = new mongoose.Schema({
+   week: {
+      type: Number,
+      required: [true, '1,2,3,4 only'],
+      enum: [1, 2, 3, 4]
+   },
    time_frame: {
       type: String,
       required: true,
