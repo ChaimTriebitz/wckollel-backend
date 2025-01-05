@@ -14,6 +14,7 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/private', require('./routes/private'))
 app.use('/api/schedules', require('./routes/schedules'))
 app.use('/api/zmanim', require('./routes/zmanim.js'))
+app.use('/api/donations', require('./routes/donations.js'))
 
 app.use(require('./middleware/error'))
 
