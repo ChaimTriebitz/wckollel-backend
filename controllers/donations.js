@@ -17,7 +17,7 @@ async function donate(req, res, next) {
       const encodedParams = new URLSearchParams();
       encodedParams.set('type', 'sale'); // Sale transaction
       encodedParams.set('amount', data.amount); // Donation amount
-      encodedParams.set('security_key', process.env.NMI_CHECK_OUT_KEY); // Replace with your actual NMI security key
+      encodedParams.set('security_key', '6457Thfj624V5r7WUwc5v6a68Zsd6YEm'); // Replace with your actual NMI security key
       encodedParams.set('token', data.token); // Token from Collect.js
       encodedParams.set('firstname', data.firstname); // Donor's first name
       encodedParams.set('lastname', data.lastname); // Donor's last name
