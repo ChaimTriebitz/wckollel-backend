@@ -1,41 +1,40 @@
-const axios = require('axios'); 
+const axios = require('axios');
 
 module.exports = {
    donate,
 }
 
 async function donate(req, res, next) {
-
-
-   const data = req.body;
-   console.log(data);
-
+   console.log(req.body);
    
-   
+   const { token, amount, name, email } = req.body;
+console.log(name);
+
    try {
+      const response = await axios.post(
+         "https://app.fluidpay.com/api/transaction",
+         {
+            type: "sale",
+            amount,
+            payment_method: { token },
+            billing_address: { name, email },
+         },
+         {
+            headers: {
+               Authorization: process.env.FLUID_API_KEY, // Use your server-side API key
+               "Content-Type": "application/json",
+            },
+         }
+      );
 
-      const encodedParams = new URLSearchParams();
-      encodedParams.set('type', 'sale'); // Sale transaction
-      encodedParams.set('amount', data.amount); // Donation amount
-      encodedParams.set('security_key', process.env.NMI_CHECK_OUT_KEY); // Replace with your actual NMI security key
-      encodedParams.set('token', data.token); // Token from Collect.js
-      encodedParams.set('firstname', data.firstname); // Donor's first name
-      encodedParams.set('lastname', data.lastname); // Donor's last name
-      
-      const options = {
-        method: 'POST',
-        url: 'https://secure.nmi.com/api/transact.php',
-        headers: {
-
-          accept: 'application/x-www-form-urlencoded',
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        data: encodedParams,
-      };
-      
-     const response = await axios.request(options)
-      res.status(201).json({ message: 'Donation accepted successfully', data: response.data.data });
-   } catch (err) {
-      res.status(400).json({ message: err.message });
+      res.status(response.status).json(response.data); // Forward the response back to the client
+   } catch (error) {
+      // console.error(error);
+      // Check if the error is an Axios error and include more details
+      if (error.response) {
+         res.status(error.response.status).json({ error: error.response.data });
+      } else {
+         res.status(500).json({ error: "Internal server error" });
+      }
    }
 }
