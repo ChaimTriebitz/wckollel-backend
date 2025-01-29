@@ -1,3 +1,4 @@
+const cache = require('memory-cache');
 const Schedules = require('../models/Schedules')
 
 module.exports = {
@@ -8,10 +9,20 @@ module.exports = {
    remove
 }
 
-async function get(req, res, next) {
+const CACHE_KEY = 'schedules_cache';
 
+async function get(req, res, next) {
    try {
+      const cachedData = cache.get(CACHE_KEY);
+
+      if (cachedData) {
+         return res.json(cachedData);
+      }
+
       const schedules = await Schedules.find();
+
+      cache.put(CACHE_KEY, schedules);
+
       res.json(schedules);
    } catch (err) {
       res.status(500).json({ message: err.message });
@@ -33,6 +44,7 @@ async function createMany(req, res, next) {
 }
 
 async function create(req, res, next) {
+   cache.del(CACHE_KEY);
    const ScheduleData = req.body;
    try {
       const newSchedule = new Schedules(ScheduleData);
@@ -44,6 +56,7 @@ async function create(req, res, next) {
 }
 
 async function update(req, res, next) {
+   cache.del(CACHE_KEY);
    const { id } = req.params;
    const updateData = req.body;
    try {
@@ -56,6 +69,7 @@ async function update(req, res, next) {
 }
 
 async function remove(req, res, next) {
+   cache.del(CACHE_KEY);
    const { id } = req.params;
    try {
       const deletedSchedule = await Schedules.findByIdAndDelete(id);
