@@ -6,19 +6,22 @@ module.exports = {
 
 
 async function donate(req, res, next) {
-   console.log(req.body);
-   
-   const { token, amount, name, email } = req.body;
-console.log(name);
+
+   const { token, amount, first_name, last_name, email } = req.body;
 
    try {
       const response = await axios.post(
          "https://app.fluidpay.com/api/transaction",
          {
             type: "sale",
-            amount,
+            email_receipt: true,
+            amount: parseFloat(amount) * 100,
             payment_method: { token },
-            billing_address: { name, email },
+            billing_address: {
+               first_name,
+               last_name,
+               email
+            },
          },
          {
             headers: {
