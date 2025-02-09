@@ -34,7 +34,7 @@ async function createMany(req, res, next) {
 
    Schedules.insertMany(data)
       .then((d) => {
-         console.log('Schedules inserted successfully');
+         // console.log('Schedules inserted successfully');
          res.json(d);
       })
       .catch((error) => {
