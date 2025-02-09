@@ -6,36 +6,32 @@ module.exports = {
 
 async function donate(req, res, next) {
 
+   const { amount, cardNumber, expiry, cvv } = req.body;
 
-   const data = req.body;
-   console.log(data);
-
-   
    
    try {
+     const response = await axios.post("https://secure.networkmerchants.com/api/transact.php", null, {
+       params: {
+         username: process.env.NMI_USERNAME,
+         password: process.env.NMI_API_KEY,
+         amount,
+         type: "sale",
+         ccnumber: cardNumber,
+         ccexp: expiry,
+         cvv,
+       },
+     });
 
-      const encodedParams = new URLSearchParams();
-      encodedParams.set('type', 'sale'); // Sale transaction
-      encodedParams.set('amount', data.amount); // Donation amount
-      encodedParams.set('security_key', '6457Thfj624V5r7WUwc5v6a68Zsd6YEm'); // Replace with your actual NMI security key
-      encodedParams.set('token', data.token); // Token from Collect.js
-      encodedParams.set('firstname', data.firstname); // Donor's first name
-      encodedParams.set('lastname', data.lastname); // Donor's last name
-      
-      const options = {
-        method: 'POST',
-        url: 'https://secure.nmi.com/api/transact.php',
-        headers: {
-
-          accept: 'application/x-www-form-urlencoded',
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        data: encodedParams,
-      };
-      
-     const response = await axios.request(options)
-      res.status(201).json({ message: 'Donation accepted successfully', data: response.data.data });
-   } catch (err) {
-      res.status(400).json({ message: err.message });
+     console.log(response);
+     
+ 
+     if (response.data.response === "1") {
+       res.json({ success: true });
+     } else {
+       res.json({ success: false, message: response.data});
+     }
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ success: false, message: "Server error" });
    }
 }
