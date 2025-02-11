@@ -12,8 +12,9 @@ module.exports = sendEmail = (options) => {
    const MailGen = new Mailgen({
       theme: 'default',
       product: {
-         name: 'CTsites',
-         link: 'https://ctsites.com'
+         name: 'wckollel',
+         link: 'https://www.wckollel.com',
+         logo:'https://www.wckollel.com/static/media/logo500.12d3c3ca8d79c64e4e60.png'
       }
    })
 
@@ -21,20 +22,19 @@ module.exports = sendEmail = (options) => {
       {
          body: {
             name: options.username,
-            intro: 'Welcome to CTsites!',
+            intro:options.intro,
             action: {
                instructions: options.instructions,
                button: {
-                  color: '#22BC66', // Optional action button color
+                  color: '#30475E', 
                   text: 'Click here',
                   link: options.link,
                }
             },
-            outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
+            outro: options.outro
          }
       }
    )
-
 
    const mailOptions = {
       from: process.env.EMAIL_FROM,

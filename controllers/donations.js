@@ -1,13 +1,13 @@
-const axios = require('axios');
+const axios = require('axios')
+const sendEmail = require('../utils/sendEmail')
 
 module.exports = {
    donate,
 }
 
-
 async function donate(req, res, next) {
 
-   const { token, amount, first_name, last_name, email } = req.body;
+   const { token, amount, first_name, last_name, email } = req.body
 
    try {
       const response = await axios.post(
@@ -25,20 +25,44 @@ async function donate(req, res, next) {
          },
          {
             headers: {
-               Authorization: process.env.FLUID_API_KEY, // Use your server-side API key
+               Authorization: process.env.FLUID_API_KEY, 
                "Content-Type": "application/json",
             },
          }
-      );
-
-      res.status(response.status).json(response.data); // Forward the response back to the client
+      )
+      try {
+         await sendEmail({
+            username: first_name + ' ' + last_name,
+            to: email,
+            intro: 'Thank you for your generous donation.',
+            subject: 'wckollel Donation Receipt',
+            outro: 'No goods or services were provided in lieu of this donation.',
+            table: {
+               data: [
+                  {
+                     description: 'Amount of us dollars donated',
+                     amount: '💲' + parseFloat(amount) * 100
+                  }
+               ],
+               columns: {
+                  customWidth: {
+                     amount: '15%'
+                  },
+               }
+            },
+            // instructions: 'click down ⬇️ here to reset password',
+            // link: resetUrl
+         })
+         res.status(response.status).json(response.data)
+      } catch (error) {
+         return next(new ErrorResponse('Email could not be sent', 500))
+      }
    } catch (error) {
-      // console.error(error);
-      // Check if the error is an Axios error and include more details
+      // console.error(error)
       if (error.response) {
-         res.status(error.response.status).json({ error: error.response.data });
+         res.status(error.response.status).json({ error: error.response.data })
       } else {
-         res.status(500).json({ error: "Internal server error" });
+         res.status(500).json({ error: "Internal server error" })
       }
    }
 }
