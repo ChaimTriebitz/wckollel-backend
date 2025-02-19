@@ -23,14 +23,14 @@ module.exports = sendEmail = (options) => {
          body: {
             name: options.username,
             intro:options.intro,
-            action: {
-               instructions: options.instructions,
-               button: {
-                  color: '#30475E', 
-                  text: 'Click here',
-                  link: options.link,
-               }
-            },
+            // action: {
+            //    instructions: options.instructions,
+            //    button: {
+            //       color: '#30475E', 
+            //       text: 'Click here',
+            //       link: options.link,
+            //    }
+            // },
             outro: options.outro
          }
       }
