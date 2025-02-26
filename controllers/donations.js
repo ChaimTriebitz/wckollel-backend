@@ -30,43 +30,42 @@ async function donate(req, res, next) {
             },
          }
       )
-      try {
-         await sendEmail({
-            username: first_name + ' ' + last_name,
-            to: email,
-            intro: `
-            Thank you for your generous donation! \n
-            Your gift enables wckollel to continue infusing our community and our lives with meaningful Yiddishkeit.
-            You make this happen through your generosity.
-            May Hashem grant you much nachas, Bracha, and Hatzlacha.
-            `,
-            subject: 'wckollel Donation Receipt',
-            outro: 'No goods or services were provided in lieu of this donation.',
-            table: {
-               data: [
-                  {
-                     description: 'Amount of us dollars donated',
-                     amount: '$' + amount
+      res.status(response.status).json(response.data)
+      if(response.data.data.response==='approved'){
+         try {
+            await sendEmail({
+               username: first_name + ' ' + last_name,
+               to: email,
+               intro: `
+               Thank you for your generous donation! \n
+               Your gift enables wckollel to continue infusing our community and our lives with meaningful Yiddishkeit.
+               You make this happen through your generosity.
+               May Hashem grant you much nachas, Bracha, and Hatzlacha.
+               `,
+               subject: 'wckollel Donation Receipt',
+               outro: 'No goods or services were provided in lieu of this donation.',
+               table: {
+                  data: [
+                     {
+                        description: 'Amount of us dollars donated',
+                        amount: '$' + amount
+                     }
+                  ],
+                  columns: {
+                     customWidth: {
+                        amount: '15%'
+                     },
                   }
-               ],
-               columns: {
-                  customWidth: {
-                     amount: '15%'
-                  },
-               }
-            },
-
-            // instructions: 'click down ⬇️ here to reset password',
-            // link: resetUrl
-         })
-         console.log('baba');
-
-         res.status(response.status).json(response.data)
-      } catch (error) {
-         return next(new ErrorResponse('Email could not be sent', 500))
+               },
+   
+               // instructions: 'click down ⬇️ here to reset password',
+               // link: resetUrl
+            })
+         } catch (error) {
+            return next(new ErrorResponse('Email could not be sent', 500))
+         }
       }
    } catch (error) {
-      // console.error(error)
       if (error.response) {
          res.status(error.response.status).json({ error: error.response.data })
       } else {
