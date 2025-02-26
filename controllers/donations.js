@@ -46,7 +46,7 @@ async function donate(req, res, next) {
                data: [
                   {
                      description: 'Amount of us dollars donated',
-                     amount: '$' + parseFloat(amount) * 100
+                     amount: '$' + amount
                   }
                ],
                columns: {
@@ -55,11 +55,12 @@ async function donate(req, res, next) {
                   },
                }
             },
+
             // instructions: 'click down ⬇️ here to reset password',
             // link: resetUrl
          })
          console.log('baba');
-         
+
          res.status(response.status).json(response.data)
       } catch (error) {
          return next(new ErrorResponse('Email could not be sent', 500))

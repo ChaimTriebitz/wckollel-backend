@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer')
 const Mailgen = require('mailgen')
+
 module.exports = sendEmail = (options) => {
    const transporter = nodemailer.createTransport({
       service: process.env.EMAIL_SERVICE,
@@ -14,7 +15,8 @@ module.exports = sendEmail = (options) => {
       product: {
          name: 'wckollel',
          link: 'https://www.wckollel.com',
-         logo:'https://www.wckollel.com/static/media/logo500.12d3c3ca8d79c64e4e60.png'
+         logo:'https://www.wckollel.com/static/media/wckollel-log.b4af26c26fac79625d08.png',
+         logoHeight: '150px'
       }
    })
 
@@ -23,6 +25,7 @@ module.exports = sendEmail = (options) => {
          body: {
             name: options.username,
             intro:options.intro,
+            table:options.table,
             // action: {
             //    instructions: options.instructions,
             //    button: {
